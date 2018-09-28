@@ -1,11 +1,12 @@
 import React from "react";
 import MoviePoster from "./MoviePoster.js";
+import MovieDetails from "./MovieDetails.js";
 
 class Movies extends React.Component {
   constructor() {
     super();
 
-    this.state = { image: "" };
+    this.state = { movie: "" };
 
     this.receiveMovie = this.receiveMovie.bind(this);
     this.fetchMovie = this.fetchMovie.bind(this);
@@ -31,14 +32,15 @@ class Movies extends React.Component {
   }
 
   render() {
+    const movieExists = !!this.state.movie.imdbID;
+
     return (
       <div>
         {this.props.movies.map(movie => (
-          <MoviePoster
-            key={movie.imdbID}
-            movieObject={movie}
-            receiveMovie={this.receiveMovie}
-          />
+          <div key={movie.imdbID}>
+            <MoviePoster movieObject={movie} receiveMovie={this.receiveMovie} />
+            {movieExists ? <MovieDetails movieObject={movie} /> : null}
+          </div>
         ))}
       </div>
     );
