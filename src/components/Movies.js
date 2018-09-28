@@ -32,14 +32,16 @@ class Movies extends React.Component {
   }
 
   render() {
-    const movieExists = !!this.state.movie.imdbID;
+    const currentMovie = this.state.movie.imdbID;
 
     return (
       <div>
         {this.props.movies.map(movie => (
           <div key={movie.imdbID}>
             <MoviePoster movieObject={movie} receiveMovie={this.receiveMovie} />
-            {movieExists ? <MovieDetails movieObject={movie} /> : null}
+            {currentMovie === movie.imdbID ? (
+              <MovieDetails movieObject={movie} />
+            ) : null}
           </div>
         ))}
       </div>
