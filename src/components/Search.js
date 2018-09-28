@@ -27,7 +27,7 @@ class Search extends React.Component {
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-          <label>Search</label>
+          <label>Search:</label>
           <input
             name="movie"
             placeholder="Search Movies"
