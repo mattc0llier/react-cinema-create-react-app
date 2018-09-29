@@ -2,6 +2,17 @@ import React from "react";
 import YouTube from "react-youtube";
 
 class MovieDetails extends React.Component {
+  constructor() {
+    super();
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(event) {
+    console.log(event);
+    this.props.receiveFavouriteMovie(this.props.movieObject);
+  }
+
   render() {
     // YOUtube options
     const opts = {
@@ -30,8 +41,10 @@ class MovieDetails extends React.Component {
         <div>
           <YouTube videoId="U1fu_sA7XhE" opts={opts} onReady={this._onReady} />
         </div>
-        <button className="play-button" />
-        <button className="watch-trailer-button" />
+        <button onClick={this.handleClick}>Add to favourites</button>
+        <button>Remove from favourites</button>
+        <button>Add to watched</button>
+        <button>Remove from watched</button>
 
         <p>Watched</p>
         <p>Save</p>

@@ -46,7 +46,10 @@ class Movies extends React.Component {
           <div key={movie.imdbID}>
             <MoviePoster movieObject={movie} receiveMovie={this.receiveMovie} />
             {currentMovie === movie.imdbID ? (
-              <MovieDetails movieObject={movie} />
+              <MovieDetails
+                movieObject={movie}
+                receiveFavouriteMovie={this.props.receiveFavouriteMovie}
+              />
             ) : null}
           </div>
         ))}

@@ -2,6 +2,7 @@ import React from "react";
 import Search from "./Search.js";
 import Movies from "./Movies.js";
 import Pagination from "./Pagination.js";
+import Favourites from "./Favourites.js";
 
 //font awesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -81,6 +82,7 @@ class App extends React.Component {
           receiveSearchQuery={this.receiveSearchQuery}
           searchQuery={this.state.searchQuery}
         />
+        <Favourites />
         <Movies movies={this.state.movies} />
         <footer>
           <h4>Total results:{this.state.totalResults}</h4>
