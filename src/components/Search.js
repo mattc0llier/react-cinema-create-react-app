@@ -1,4 +1,5 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class Search extends React.Component {
   constructor() {
@@ -26,7 +27,9 @@ class Search extends React.Component {
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-          <label>Search:</label>
+          <label>
+            Search<FontAwesomeIcon icon="search" />:
+          </label>
           <input
             name="movie"
             placeholder="Search Movies"

@@ -3,6 +3,18 @@ import Search from "./Search.js";
 import Movies from "./Movies.js";
 import Pagination from "./Pagination.js";
 
+//font awesome
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCheckSquare,
+  faCoffee,
+  faHeart,
+  faSearch
+} from "@fortawesome/free-solid-svg-icons";
+
+library.add(faCheckSquare, faCoffee, faHeart, faSearch);
+
 class App extends React.Component {
   constructor() {
     super();
@@ -63,6 +75,8 @@ class App extends React.Component {
     return (
       <div className="App">
         <h1>Hello</h1>
+        <FontAwesomeIcon icon="coffee" />
+        <FontAwesomeIcon icon="heart" />
         <Search
           receiveSearchQuery={this.receiveSearchQuery}
           searchQuery={this.state.searchQuery}
