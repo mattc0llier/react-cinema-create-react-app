@@ -4,7 +4,7 @@ class Search extends React.Component {
   constructor() {
     super();
 
-    this.state = { searchQuery: "" };
+    this.state = { searchInput: "" };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -13,14 +13,13 @@ class Search extends React.Component {
   handleChange(event) {
     //console.log(event.target.value);
     this.setState({
-      searchQuery: event.target.value
+      searchInput: event.target.value
     });
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log(this.state.searchQuery);
-    this.props.receiveSearchQuery(this.state.searchQuery);
+    this.props.receiveSearchQuery(this.state.searchInput);
   }
 
   render() {

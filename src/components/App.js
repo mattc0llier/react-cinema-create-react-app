@@ -10,7 +10,8 @@ class App extends React.Component {
     this.state = {
       movies: [],
       totalResults: 0,
-      resultsPage: "1"
+      resultsPage: "1",
+      searchQuery: "jaws"
     };
 
     this.fetchMovies = this.fetchMovies.bind(this);
@@ -18,8 +19,12 @@ class App extends React.Component {
     this.receiveResultsPageNumber = this.receiveResultsPageNumber.bind(this);
   }
 
-  fetchMovies(searchQuery) {
-    fetch(`http://www.omdbapi.com/?s=${searchQuery}&page=1&apikey=edd66bb`)
+  fetchMovies() {
+    fetch(
+      `http://www.omdbapi.com/?s=${this.state.searchQuery}&page=${
+        this.state.resultsPage
+      }&apikey=edd66bb`
+    )
       .then(function(response) {
         return response.json();
       })
@@ -35,7 +40,13 @@ class App extends React.Component {
 
   /// Pass props down to searchQuery
   receiveSearchQuery(searchQuery) {
-    this.fetchMovies(searchQuery);
+    this.setState(
+      {
+        searchQuery: searchQuery
+      },
+      //() => this.fetchMovies()
+      () => this.fetchMovies()
+    );
   }
 
   receiveResultsPageNumber(resultsPage) {
@@ -43,7 +54,8 @@ class App extends React.Component {
       {
         resultsPage: resultsPage
       },
-      () => console.log(this.state.resultsPage)
+      //() => this.fetchMovies()
+      () => this.fetchMovies()
     );
   }
 
@@ -51,7 +63,10 @@ class App extends React.Component {
     return (
       <div className="App">
         <h1>Hello</h1>
-        <Search receiveSearchQuery={this.receiveSearchQuery} />
+        <Search
+          receiveSearchQuery={this.receiveSearchQuery}
+          searchQuery={this.state.searchQuery}
+        />
         <Movies movies={this.state.movies} />
         <footer>
           <h4>Total results:{this.state.totalResults}</h4>
