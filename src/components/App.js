@@ -10,12 +10,12 @@ class App extends React.Component {
     this.state = {
       movies: [],
       totalResults: 0,
-      resultsPage: 0
+      resultsPage: "1"
     };
 
     this.fetchMovies = this.fetchMovies.bind(this);
     this.receiveSearchQuery = this.receiveSearchQuery.bind(this);
-    this.receiveResultsPageNumber = receiveResultsPageNumber.bind(this);
+    this.receiveResultsPageNumber = this.receiveResultsPageNumber.bind(this);
   }
 
   fetchMovies(searchQuery) {
@@ -39,7 +39,12 @@ class App extends React.Component {
   }
 
   receiveResultsPageNumber(resultsPage) {
-    console.log(resultsPage);
+    this.setState(
+      {
+        resultsPage: resultsPage
+      },
+      () => console.log(this.state.resultsPage)
+    );
   }
 
   render() {
@@ -52,8 +57,7 @@ class App extends React.Component {
           <h4>Total results:{this.state.totalResults}</h4>
           <Pagination
             totalResults={this.state.totalResults}
-            receiveResultsPageNumber={this.state.receiveResultsPageNumber}
-            resultsPage={this.state.resultsPage}
+            receiveResultsPageNumber={this.receiveResultsPageNumber}
           />
         </footer>
       </div>

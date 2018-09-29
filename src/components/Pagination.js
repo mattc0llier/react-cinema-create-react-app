@@ -8,7 +8,8 @@ class Pagination extends React.Component {
   }
 
   handleClick(event) {
-    this.props.receiveResultsPageNumber(this.props.resultsPage);
+    console.log("button number:" + event.target.innerHTML);
+    this.props.receiveResultsPageNumber(event.target.innerHTML);
   }
 
   /// Generate button for Pagination
