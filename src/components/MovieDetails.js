@@ -17,8 +17,8 @@ class MovieDetails extends React.Component {
           IMDB
         </a>
 
-        <button class="play-button" />
-        <button class="watch-trailer-button" />
+        <button className="play-button" />
+        <button className="watch-trailer-button" />
 
         <p>Watched</p>
         <p>Save</p>

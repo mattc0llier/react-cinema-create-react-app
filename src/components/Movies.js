@@ -23,12 +23,18 @@ class Movies extends React.Component {
   }
 
   receiveMovie(movie) {
-    this.setState(
-      {
-        movie: movie
-      },
-      () => this.fetchMovie(this.state.movie.imdbID)
-    );
+    if (movie.imdbID !== this.state.movie.imdbID) {
+      this.setState(
+        {
+          movie: movie
+        },
+        () => this.fetchMovie(this.state.movie.imdbID)
+      );
+    } else {
+      this.setState({
+        movie: ""
+      });
+    }
   }
 
   render() {
