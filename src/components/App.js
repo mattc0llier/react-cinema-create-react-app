@@ -1,8 +1,7 @@
 import React from "react";
-import Search from "./Search.js";
-import Movies from "./Movies.js";
-import Pagination from "./Pagination.js";
-import Favourites from "./Favourites.js";
+import Note from "./Note.js";
+import Notebook from "./Notebook.js";
+import Menu from "./Menu.js";
 
 //font awesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -20,77 +19,78 @@ class App extends React.Component {
   constructor() {
     super();
 
-    this.state = {
-      movies: [],
-      totalResults: 0,
-      resultsPage: "1",
-      searchQuery: "jaws"
+      this.state = { notes: [], currentNote: { noteContent: "" }, noteID: 0, noteContent: "" }
+
+      this.handleNoteSave = this.handleNoteSave.bind(this)
+      //this.incrementNoteID = this.incrementNoteID.bind(this)
+      this.receiveCurrentNote = this.receiveCurrentNote.bind(this)
+      this.receiveCreateNewNote = this.receiveCreateNewNote.bind(this)
     };
 
-    this.fetchMovies = this.fetchMovies.bind(this);
-    this.receiveSearchQuery = this.receiveSearchQuery.bind(this);
-    this.receiveResultsPageNumber = this.receiveResultsPageNumber.bind(this);
-  }
+    componentDidMount(){
+      const notes = window.localStorage.getItem('notes');
+      const notesArr = notes ? JSON.parse(notes) : [];
 
-  fetchMovies() {
-    fetch(
-      `http://www.omdbapi.com/?s=${this.state.searchQuery}&page=${
-        this.state.resultsPage
-      }&apikey=edd66bb`
-    )
-      .then(function(response) {
-        return response.json();
-      })
-      .then(body => {
-        this.setState({ movies: body.Search });
-        this.setState({ totalResults: body.totalResults });
+     this.setState({
+       notes: notesArr
       });
-  }
+    }
 
-  componentDidMount() {
-    this.fetchMovies("jaws");
-  }
 
-  /// Pass props down to searchQuery
-  receiveSearchQuery(searchQuery) {
-    this.setState(
-      {
-        searchQuery: searchQuery
-      },
-      //() => this.fetchMovies()
-      () => this.fetchMovies()
-    );
-  }
+    handleNoteSave(savedNoteContent){
+      ///// set to note noteContent
+      //// if exisiting id -> update existing // note
+      /// if new incrementNoteID
+      //// update state of notes
 
-  receiveResultsPageNumber(resultsPage) {
-    this.setState(
-      {
-        resultsPage: resultsPage
-      },
-      //() => this.fetchMovies()
-      () => this.fetchMovies()
-    );
-  }
+      if(!this.state.currentNote.noteID){
+        this.setState({ noteID: this.state.noteID + 1 })
+
+        const newNote = {
+          noteID: this.state.noteID,
+          noteContent: savedNoteContent
+        }
+        this.setState({
+          notes: this.state.notes.concat(newNote)
+        }), () => window.localStorage.setItem('notes', JSON.stringify(this.state.notes));
+
+        this.setState({
+          currentNote: newNote
+        })
+
+
+      }
+
+
+
+    }
+
+    // incrementNoteID(){
+    //   this.setState({ noteID: this.state.noteID + 1 })
+    // }
+
+    receiveCurrentNote(selectedNote){
+
+      this.setState({
+        currentNote: selectedNote
+      })
+    }
+
+    receiveCreateNewNote(){
+      console.log("new note", this.state.currentNote)
+      this.setState(this.state.currentNote: {})
+      console.log("new note after", this.state.currentNote)
+    }
 
   render() {
     return (
       <div className="App">
-        <h1>Hello</h1>
-        <FontAwesomeIcon icon="coffee" />
-        <FontAwesomeIcon icon="heart" />
-        <Search
-          receiveSearchQuery={this.receiveSearchQuery}
-          searchQuery={this.state.searchQuery}
+        <Menu />
+        <Notebook notes={this.state.notes} receiveCurrentNote={this.receiveCurrentNote} receiveCreateNewNote={this.receiveCreateNewNote}/>
+        <Note
+          currentNote={this.state.currentNote}
+          handleNoteSave={this.handleNoteSave}
         />
-        <Favourites />
-        <Movies movies={this.state.movies} />
-        <footer>
-          <h4>Total results:{this.state.totalResults}</h4>
-          <Pagination
-            totalResults={this.state.totalResults}
-            receiveResultsPageNumber={this.receiveResultsPageNumber}
-          />
-        </footer>
       </div>
     );
   }
