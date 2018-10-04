@@ -18,8 +18,6 @@ class Note extends React.Component {
     this.setState({
       noteContent: event.target.value
     })
-    console.log('Changing note content', this.state.noteContent)
-    //createNote()
   }
 
   handleSubmit(event){
@@ -32,9 +30,9 @@ class Note extends React.Component {
 
   render(){
     return(
-      <div>
+      <div className="note">
         <form id="note__form" onSubmit={this.handleSubmit}>
-          
+
           <textarea onChange={this.handleNoteContentChange} name="textarea"
             autoComplete="on" form="note__form" wrap="soft"
             placeholder="What are you thinking?" value={this.state.noteContent}>
@@ -43,6 +41,7 @@ class Note extends React.Component {
 
           <button type="submit">Save</button>
         </form>
+        <button type="click">Delete</button>
       </div>
     )
   }

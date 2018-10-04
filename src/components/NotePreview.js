@@ -14,9 +14,14 @@ class NotePreview extends React.Component {
 
 
   render(){
+
+    const noteString = this.props.note.noteContent;
+    const previewLength = 100;
+    const previewNote = noteString.substring(0, previewLength)
+
     return(
       <li>
-        <div onClick={this.handleClick}><p>{this.props.note.noteContent}</p></div>
+        <div onClick={this.handleClick}><p>{previewNote}</p></div>
 
       </li>
     )

@@ -15,7 +15,7 @@ class Notebook extends React.Component {
 
   render(){
     return(
-      <div>
+      <div className="notebook">
         <h2>Notebook</h2>
         <ul>
           {this.props.notes.map( note => {
