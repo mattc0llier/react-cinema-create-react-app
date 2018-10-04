@@ -34,6 +34,13 @@ class Note extends React.Component {
 
 
   render(){
+    console.log(this.props.currentNote.noteUpdatedAt);
+    const noteUpdatedTimeStamp = this.props.currentNote.noteUpdatedAt
+    const currentDateTimeStamp = Date.now()
+    const timeDifference = currentDateTimeStamp - noteUpdatedTimeStamp
+
+    const timeDifferenceInHours = (timeDifference / 1000 / 60 / 60).toFixed(1);
+
     return(
       <div className="note">
         <form id="note__form" onSubmit={this.handleSubmit}>
@@ -44,12 +51,12 @@ class Note extends React.Component {
             name="textarea"
             autoComplete="on" form="note__form" wrap="soft"
             placeholder="What are you thinking?" value={this.state.noteContent}
-            rows="50"
+            rows="30"
           >
 
             </textarea>
 
-          <button type="submit">Save</button>
+          <button type="submit">Save</button><p>Last updated {timeDifferenceInHours}h ago</p>
         </form>
         <button type="click" onClick={this.handleDeleteClick}>Delete</button>
         <button type="click" >Display time series</button>

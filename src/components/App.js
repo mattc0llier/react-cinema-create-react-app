@@ -58,7 +58,11 @@ class App extends React.Component {
 
       const newNote = {
         noteID: this.state.cumulativeNoteID,
-        noteContent: savedNoteContent
+        noteContent: savedNoteContent,
+        noteCreatedAt: new Date(),
+        noteCreatedAtTimeStamp: Date.now(),
+        noteUpdatedAt: new Date(),
+        noteUpdatedAtTimeStamp: Date.now()
       }
 
       console.log('newNOte', newNote)
@@ -99,7 +103,11 @@ class App extends React.Component {
             if (note.noteID === this.state.currentNote.noteID) {
               return {
                 noteID: note.noteID,
-                noteContent: savedNoteContent
+                noteContent: savedNoteContent,
+                noteCreatedAt: note.noteCreatedAt,
+                noteCreatedAtTimeStamp: note.noteCreatedAtTimeStamp,
+                noteUpdatedAt: new Date(),
+                noteUpdatedAtTimeStamp: Date.now()
               }
             } else {
               return note;
