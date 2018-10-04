@@ -1,15 +1,22 @@
 import React from "react";
-import NotePreview from "./NotePreview"
+import NotePreview from "./NotePreview.js"
+import Search from "./Search.js"
 
 class Notebook extends React.Component {
   constructor(){
     super()
 
-    this.handleClick = this.handleClick.bind(this)
+    this.handleNewNoteClick = this.handleNewNoteClick.bind(this)
+    this.handleClearAllClick = this.handleClearAllClick.bind(this)
   }
 
-  handleClick(event){
+  handleNewNoteClick(event){
     this.props.receiveCreateNewNote()
+  }
+
+  handleClearAllClick(event){
+    console.log(event);
+    this.props.receiveClearAllClick();
   }
 
 
@@ -17,12 +24,16 @@ class Notebook extends React.Component {
     return(
       <div className="notebook">
         <h2>Notebook</h2>
+        <Search />
         <ul>
           {this.props.notes.map( note => {
             return <NotePreview key={note.noteID} note={note} receiveCurrentNote={this.props.receiveCurrentNote}/>
           })}
         </ul>
-        <button onClick={this.handleClick}>New note</button>
+        <p>{this.props.cumulativeNoteID} notes</p>
+        <button onClick={this.handleNewNoteClick}>New note</button>
+        <button onClick={this.handleClearAllClick}>Clear localStorage</button>
+
       </div>
     )
   }

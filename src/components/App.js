@@ -27,16 +27,26 @@ class App extends React.Component {
       this.receiveCreateNewNote = this.receiveCreateNewNote.bind(this)
       this.createNewNote = this.createNewNote.bind(this)
       this.receiveDeleteClick = this.receiveDeleteClick.bind(this)
+      this.receiveClearAllClick = this.receiveClearAllClick.bind(this)
     };
 
+    //load in notes array from localstorage on loading the page
     componentDidMount(){
       const notes = window.localStorage.getItem('notes');
       const notesArr = notes ? JSON.parse(notes) : [];
+      this.setState({
+        notes: notesArr
+       });
 
-     this.setState({
-       notes: notesArr
+      const cumulativeNoteID = window.localStorage.getItem('cumulativeNoteID');
+      const updatedCumulativeNoteID = cumulativeNoteID ? JSON.parse(cumulativeNoteID) : 0;
+      this.setState({
+        cumulativeNoteID: updatedCumulativeNoteID
       });
+
+      console.log('notesArr on page load', this.state.notes)
     }
+
 
     createNewNote(savedNoteContent){
       console.log('createNewNote reached', savedNoteContent);
@@ -55,7 +65,14 @@ class App extends React.Component {
 
       this.setState({
         notes: this.state.notes.concat(newNote)
-      }), () => window.localStorage.setItem('notes', JSON.stringify(this.state.notes));
+      },
+      () => {
+        window.localStorage.setItem('notes', JSON.stringify(this.state.notes))
+        window.localStorage.setItem('cumulativeNoteID', JSON.stringify(this.state.cumulativeNoteID))
+        console.log('notesArr on create note', this.state.notes);
+      });
+
+
 
       this.setState({
         currentNote: newNote
@@ -115,14 +132,37 @@ class App extends React.Component {
       console.log('noteToDelete', noteToDelete.noteID);
       console.log('all note objects', this.state.notes);
 
-      this.setState({
-        notes: this.state.notes.filter(notesObject => {
-        //if noteID === deleting ID then return array with noteID object taken out
-          return notesObject.noteID !== noteToDelete.noteID
-        })
-      }),
-      () => console.log('all note objects after DELETE', this.state.notes);
+      const filteredNotes = this.state.notes.filter(notesObject => {
+      //if noteID === deleting ID then return array with noteID object taken out
+        return notesObject.noteID !== noteToDelete.noteID
+      })
 
+      this.setState({
+
+        notes: filteredNotes
+      },
+      () => {
+        //delete items from localStorage
+        window.localStorage.setItem('notes', JSON.stringify(this.state.notes))
+              //find the note with the previsous id to the deleted id.
+        const newCurrentNote = this.state.notes.find( notesObject => {
+            return notesObject.noteID === 0
+          }
+        )
+        console.log(newCurrentNote);
+
+        //setState to the new current note
+        this.setState({
+          currentNote: newCurrentNote
+        })
+        console.log('all note objects after DELETE', this.state.notes)
+      })
+
+    }
+
+    receiveClearAllClick(){
+      console.log('clear all notes');
+      localStorage.clear();
     }
 
   //   receiveDeleteFavouriteMovie(movie) {
@@ -142,7 +182,12 @@ class App extends React.Component {
     return (
       <div className="app">
         <Menu />
-        <Notebook notes={this.state.notes} receiveCurrentNote={this.receiveCurrentNote} receiveCreateNewNote={this.receiveCreateNewNote}/>
+        <Notebook notes={this.state.notes}
+          receiveCurrentNote={this.receiveCurrentNote}
+          receiveCreateNewNote={this.receiveCreateNewNote}
+          cumulativeNoteID={this.state.cumulativeNoteID}
+          receiveClearAllClick={this.receiveClearAllClick}
+        />
         <Note
           currentNote={this.state.currentNote}
           handleNoteSave={this.handleNoteSave}
