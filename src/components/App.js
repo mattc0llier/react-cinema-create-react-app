@@ -26,6 +26,7 @@ class App extends React.Component {
       this.receiveCurrentNote = this.receiveCurrentNote.bind(this)
       this.receiveCreateNewNote = this.receiveCreateNewNote.bind(this)
       this.createNewNote = this.createNewNote.bind(this)
+      this.receiveDeleteClick = this.receiveDeleteClick.bind(this)
     };
 
     componentDidMount(){
@@ -108,14 +109,44 @@ class App extends React.Component {
       console.log("new note after", this.state.currentNote)
     }
 
+    receiveDeleteClick(noteToDelete){
+      console.log('noteToDelete', noteToDelete);
+
+      console.log('noteToDelete', noteToDelete.noteID);
+      console.log('all note objects', this.state.notes);
+
+      this.setState({
+        notes: this.state.notes.filter(notesObject => {
+        //if noteID === deleting ID then return array with noteID object taken out
+          return notesObject.noteID !== noteToDelete.noteID
+        })
+      }),
+      () => console.log('all note objects after DELETE', this.state.notes);
+
+    }
+
+  //   receiveDeleteFavouriteMovie(movie) {
+  //   //if exists then remove move instead. maybe use filter to pass in movie to array and return back array without that in.
+  //   console.log(movie);
+  //   const favouriteMovieObject = this.state.favouriteMoviesObjects.filter(
+  //     movieObjectInArray => movie.imdbID !== movieObjectInArray.imdbID
+  //   );
+  //
+  //   this.setState({
+  //     favouriteMoviesObjects: favouriteMovieObject
+  //   });
+  //   console.log(this.state.favouriteMoviesObjects);
+  // }
+
   render() {
     return (
-      <div className="App">
+      <div className="app">
         <Menu />
         <Notebook notes={this.state.notes} receiveCurrentNote={this.receiveCurrentNote} receiveCreateNewNote={this.receiveCreateNewNote}/>
         <Note
           currentNote={this.state.currentNote}
           handleNoteSave={this.handleNoteSave}
+          receiveDeleteClick={this.receiveDeleteClick}
         />
       </div>
     );

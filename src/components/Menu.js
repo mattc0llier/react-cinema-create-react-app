@@ -3,7 +3,7 @@ import React from "react";
 class Menu extends React.Component {
   render(){
     return(
-      <div className="Menu">
+      <div className="menu">
         <ul>
           <li>Notes</li>
           <li>Archive</li>

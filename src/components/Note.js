@@ -8,6 +8,7 @@ class Note extends React.Component {
 
     this.handleNoteContentChange = this.handleNoteContentChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDeleteClick = this.handleDeleteClick.bind(this);
   }
 
   componentWillReceiveProps(nextProps){
@@ -26,6 +27,10 @@ class Note extends React.Component {
     this.props.handleNoteSave(this.state.noteContent)
   }
 
+  handleDeleteClick(event){
+    this.props.receiveDeleteClick(this.props.currentNote)
+  }
+
 
 
   render(){
@@ -33,15 +38,21 @@ class Note extends React.Component {
       <div className="note">
         <form id="note__form" onSubmit={this.handleSubmit}>
 
-          <textarea onChange={this.handleNoteContentChange} name="textarea"
+          <textarea
+            className="note__textarea"
+            onChange={this.handleNoteContentChange}
+            name="textarea"
             autoComplete="on" form="note__form" wrap="soft"
-            placeholder="What are you thinking?" value={this.state.noteContent}>
+            placeholder="What are you thinking?" value={this.state.noteContent}
+            rows="50"
+          >
 
             </textarea>
 
           <button type="submit">Save</button>
         </form>
-        <button type="click">Delete</button>
+        <button type="click" onClick={this.handleDeleteClick}>Delete</button>
+        <button type="click" >Display time series</button>
       </div>
     )
   }
