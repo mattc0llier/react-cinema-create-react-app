@@ -9,6 +9,7 @@ class Note extends React.Component {
     this.handleNoteContentChange = this.handleNoteContentChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
+    this.autoSave = this.autoSave.bind(this);
   }
 
   componentWillReceiveProps(nextProps){
@@ -19,6 +20,8 @@ class Note extends React.Component {
     this.setState({
       noteContent: event.target.value
     })
+    //currently auto saves on everytime
+    window.setTimeout(this.autoSave, 3000);
   }
 
   handleSubmit(event){
@@ -31,8 +34,13 @@ class Note extends React.Component {
     this.props.receiveDeleteClick(this.props.currentNote)
   }
 
+  autoSave(){
+    console.log("this note is saved");
+    this.props.handleNoteSave(this.state.noteContent)
+  }
+
   render(){
-    
+
     const noteUpdatedTimeStamp = this.props.currentNote.noteUpdatedAt
     const currentDateTimeStamp = Date.now()
     const timeDifference = currentDateTimeStamp - noteUpdatedTimeStamp
