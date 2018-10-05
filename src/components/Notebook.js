@@ -21,17 +21,27 @@ class Notebook extends React.Component {
 
 
   render(){
+
+    console.log('search notes notebook',this.props.searchNotes);
+
+    let notes = this.props.notes
+    if(this.props.searchNotes.length){
+      notes = this.props.searchNotes
+    }
+
+
     return(
       <div className="notebook">
         <h2>Notebook</h2>
-        <Search />
+        <Search receiveSearchInput={this.props.receiveSearchInput}/>
+        <button onClick={this.handleNewNoteClick}>New note</button>
         <ul>
-          {this.props.notes.map( note => {
+          {notes.map( note => {
             return <NotePreview key={note.noteID} note={note} receiveCurrentNote={this.props.receiveCurrentNote}/>
           })}
         </ul>
         <p>{this.props.cumulativeNoteID} notes</p>
-        <button onClick={this.handleNewNoteClick}>New note</button>
+
         <button onClick={this.handleClearAllClick}>Clear localStorage</button>
 
       </div>

@@ -31,10 +31,8 @@ class Note extends React.Component {
     this.props.receiveDeleteClick(this.props.currentNote)
   }
 
-
-
   render(){
-    console.log(this.props.currentNote.noteUpdatedAt);
+    
     const noteUpdatedTimeStamp = this.props.currentNote.noteUpdatedAt
     const currentDateTimeStamp = Date.now()
     const timeDifference = currentDateTimeStamp - noteUpdatedTimeStamp

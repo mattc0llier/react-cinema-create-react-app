@@ -19,7 +19,7 @@ class App extends React.Component {
   constructor() {
     super();
 
-      this.state = { notes: [], currentNote: { noteContent: "" }, cumulativeNoteID: 0, noteContent: "" }
+      this.state = { notes: [], currentNote: { noteContent: "" }, cumulativeNoteID: 0, noteContent: "", searchInput: "", searchNotes: [] }
 
       this.handleNoteSave = this.handleNoteSave.bind(this)
       //this.incrementNoteID = this.incrementNoteID.bind(this)
@@ -28,6 +28,8 @@ class App extends React.Component {
       this.createNewNote = this.createNewNote.bind(this)
       this.receiveDeleteClick = this.receiveDeleteClick.bind(this)
       this.receiveClearAllClick = this.receiveClearAllClick.bind(this)
+      this.receiveSearchInput = this.receiveSearchInput.bind(this)
+      this.searchNotes = this.searchNotes.bind(this)
     };
 
     //load in notes array from localstorage on loading the page
@@ -173,18 +175,45 @@ class App extends React.Component {
       localStorage.clear();
     }
 
-  //   receiveDeleteFavouriteMovie(movie) {
-  //   //if exists then remove move instead. maybe use filter to pass in movie to array and return back array without that in.
-  //   console.log(movie);
-  //   const favouriteMovieObject = this.state.favouriteMoviesObjects.filter(
-  //     movieObjectInArray => movie.imdbID !== movieObjectInArray.imdbID
-  //   );
-  //
-  //   this.setState({
-  //     favouriteMoviesObjects: favouriteMovieObject
-  //   });
-  //   console.log(this.state.favouriteMoviesObjects);
-  // }
+    receiveSearchInput(searchInput, searchNotes){
+      console.log(searchInput);
+
+      this.setState({
+        searchInput: searchInput
+      },
+    () => this.searchNotes(searchInput))
+
+
+    }
+
+    searchNotes(searchInput){
+      // reset se`rch state to clear for each key press`
+      this.setState({
+        searchNotes: []
+      })
+
+      const filteredNotes = this.state.notes.filter(note => {
+        const termIndex = note.noteContent.indexOf(searchInput)
+        console.log('index of search term', termIndex);
+        return termIndex >= 0;
+      })
+
+      console.log('filteredNotes', filteredNotes);
+
+      this.setState({
+        searchNotes: filteredNotes
+      })
+
+      if(this.state.searchNotes.length){
+        this.setState({
+          currentNote: this.state.searchNotes[0]
+        })
+      }
+    }
+
+
+
+
 
   render() {
     return (
@@ -195,11 +224,15 @@ class App extends React.Component {
           receiveCreateNewNote={this.receiveCreateNewNote}
           cumulativeNoteID={this.state.cumulativeNoteID}
           receiveClearAllClick={this.receiveClearAllClick}
+          receiveSearchInput={this.receiveSearchInput}
+          searchInput={this.state.searchInput}
+          searchNotes={this.state.searchNotes}
         />
         <Note
           currentNote={this.state.currentNote}
           handleNoteSave={this.handleNoteSave}
           receiveDeleteClick={this.receiveDeleteClick}
+          searchNotes={this.state.searchNotes}
         />
       </div>
     );
