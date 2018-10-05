@@ -15,6 +15,12 @@ html {
   height: 100vh;
 }
 
+
+.menu__notebook {
+  display: flex;
+  flex-direction: row;
+}
+
 .menu {
   flex-grow: 1;
   color: #fff;
@@ -22,6 +28,15 @@ html {
   display: flex;
   justify-content: center;
   height: 100vh;
+  padding: 10px;
+  min-width: 100px;
+}
+
+.menu li {
+  padding-top: 10px;
+}
+.menu li:hover {
+  background-color: black;
 }
 
 .notebook {
@@ -29,13 +44,58 @@ html {
   background-color: #FBFBFB;
   height: 100vh;
   max-width: 300px;
-  
+  display: flex;
+  flex-direction: column;
+
+}
+
+.notebook__actions {
+  padding: 10px;
+
+
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.notebook__info {
+  align-self: flex-end;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+}
+
+.notePreview {
+  padding: 10px;
+  border-bottom: 1px solid grey;
+}
+.notePreview:hover {
+  background-color: white;
+}
+
+.notePreview--currentNote{
+  background-color: white;
+}
+
+.notePreview:last-child{
+
+  border-bottom: 0px;
 }
 
 .note {
   flex-grow: 4;
   padding: 20px;
   height: 100vh;
+  position: relative;
+}
+
+.note__buttons {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
 }
 
 .note__textarea {
@@ -45,14 +105,5 @@ html {
 }
 
 .note__textarea:focus {
-  background-color: yellow;
-  border: none;
-}
-
-.notePreview {
-  padding: 10px;
-  border-bottom: 1px solid grey;
-}
-.notePreview:active {
-  background-color: white;
+  outline: none;
 }

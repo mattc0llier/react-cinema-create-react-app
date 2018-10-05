@@ -1,6 +1,7 @@
 import React from "react";
 import NotePreview from "./NotePreview.js"
 import Search from "./Search.js"
+import cx from 'classnames';
 
 class Notebook extends React.Component {
   constructor(){
@@ -32,17 +33,20 @@ class Notebook extends React.Component {
 
     return(
       <div className="notebook">
-        <h2>Notebook</h2>
-        <Search receiveSearchInput={this.props.receiveSearchInput}/>
-        <button onClick={this.handleNewNoteClick}>New note</button>
+        <div className="notebook__actions">
+          <Search receiveSearchInput={this.props.receiveSearchInput}/>
+          <button onClick={this.handleNewNoteClick}>New note</button>
+        </div>
+
         <ul>
           {notes.map( note => {
             return <NotePreview key={note.noteID} note={note} receiveCurrentNote={this.props.receiveCurrentNote}/>
           })}
         </ul>
-        <p>{this.props.cumulativeNoteID} notes</p>
-
-        <button onClick={this.handleClearAllClick}>Clear localStorage</button>
+        <div className="notebook__info">
+          <p>{this.props.cumulativeNoteID} notes</p>
+          <button onClick={this.handleClearAllClick}>Clear localStorage</button>
+        </div>
 
       </div>
     )

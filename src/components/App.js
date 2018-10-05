@@ -3,6 +3,8 @@ import Note from "./Note.js";
 import Notebook from "./Notebook.js";
 import Menu from "./Menu.js";
 
+import cx from 'classnames';
+
 //font awesome
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,7 +21,14 @@ class App extends React.Component {
   constructor() {
     super();
 
-      this.state = { notes: [], currentNote: { noteContent: "" }, cumulativeNoteID: 0, noteContent: "", searchInput: "", searchNotes: [] }
+      this.state = { notes: [],
+        currentNote: { noteContent: "" },
+        cumulativeNoteID: 0,
+        noteContent: "",
+        searchInput: "",
+        searchNotes: [],
+        displayType: "noteView"
+      }
 
       this.handleNoteSave = this.handleNoteSave.bind(this)
       //this.incrementNoteID = this.incrementNoteID.bind(this)
@@ -30,6 +39,9 @@ class App extends React.Component {
       this.receiveClearAllClick = this.receiveClearAllClick.bind(this)
       this.receiveSearchInput = this.receiveSearchInput.bind(this)
       this.searchNotes = this.searchNotes.bind(this)
+      this.receiveHandleNoteClick = this.receiveHandleNoteClick.bind(this)
+      this.receiveHandleNotebookClick = this.receiveHandleNotebookClick.bind(this)
+      this.receiveHandleMenuClick = this.receiveHandleMenuClick.bind(this)
     };
 
     //load in notes array from localstorage on loading the page
@@ -211,28 +223,78 @@ class App extends React.Component {
       }
     }
 
+    //hande clicks and display divs if available
 
-
-
+    receiveHandleNoteClick(){
+      this.setState({
+        displayType: "noteView"
+      })
+    }
+    receiveHandleNotebookClick(){
+      this.setState({
+        displayType: "noteBookView"
+      })
+    }
+    receiveHandleMenuClick(){
+      this.setState({
+        displayType: "menuView"
+      })
+    }
 
   render() {
+
+    console.log('display type',this.state.displayType);
+
+
+
+    // const favouritesExists = !!this.state.favouriteMoviesObjects;
+    //
+    // {favouritesExists ? (
+    //       <Favourites
+    //         favouriteMoviesObjects={this.state.favouriteMoviesObjects}
+    //       />
+    //     ) : null}
+
     return (
       <div className="app">
-        <Menu />
-        <Notebook notes={this.state.notes}
-          receiveCurrentNote={this.receiveCurrentNote}
-          receiveCreateNewNote={this.receiveCreateNewNote}
-          cumulativeNoteID={this.state.cumulativeNoteID}
-          receiveClearAllClick={this.receiveClearAllClick}
-          receiveSearchInput={this.receiveSearchInput}
-          searchInput={this.state.searchInput}
-          searchNotes={this.state.searchNotes}
-        />
+        {this.state.displayType === "menuView" ?
+        <div className="menu__notebook">
+          <Menu />
+          <Notebook
+            notes={this.state.notes}
+            receiveCurrentNote={this.receiveCurrentNote}
+            receiveCreateNewNote={this.receiveCreateNewNote}
+            cumulativeNoteID={this.state.cumulativeNoteID}
+            receiveClearAllClick={this.receiveClearAllClick}
+            receiveSearchInput={this.receiveSearchInput}
+            searchInput={this.state.searchInput}
+            searchNotes={this.state.searchNotes}
+          />
+        </div>
+        : null}
+
+        {this.state.displayType === "noteBookView" ?
+          <Notebook
+            notes={this.state.notes}
+            receiveCurrentNote={this.receiveCurrentNote}
+            receiveCreateNewNote={this.receiveCreateNewNote}
+            cumulativeNoteID={this.state.cumulativeNoteID}
+            receiveClearAllClick={this.receiveClearAllClick}
+            receiveSearchInput={this.receiveSearchInput}
+            searchInput={this.state.searchInput}
+            searchNotes={this.state.searchNotes}
+          />
+        : null}
+
+
         <Note
           currentNote={this.state.currentNote}
           handleNoteSave={this.handleNoteSave}
           receiveDeleteClick={this.receiveDeleteClick}
           searchNotes={this.state.searchNotes}
+          receiveHandleNoteClick={this.receiveHandleNoteClick}
+          receiveHandleNotebookClick={this.receiveHandleNotebookClick}
+          receiveHandleMenuClick={this.receiveHandleMenuClick}
         />
       </div>
     );

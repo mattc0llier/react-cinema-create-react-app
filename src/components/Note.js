@@ -1,4 +1,5 @@
 import React from "react";
+import cx from 'classnames';
 
 class Note extends React.Component {
   constructor(props){
@@ -10,6 +11,9 @@ class Note extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
     this.autoSave = this.autoSave.bind(this);
+    this.handleMenuClick = this.handleMenuClick.bind(this);
+    this.handleNotebookClick = this.handleNotebookClick.bind(this);
+    this.handleNoteClick = this.handleNoteClick.bind(this);
   }
 
   componentWillReceiveProps(nextProps){
@@ -39,6 +43,18 @@ class Note extends React.Component {
     this.props.handleNoteSave(this.state.noteContent)
   }
 
+  handleMenuClick(){
+    this.props.receiveHandleMenuClick()
+  }
+
+  handleNotebookClick(event){
+    this.props.receiveHandleNotebookClick()
+  }
+
+  handleNoteClick(event){
+    this.props.receiveHandleNoteClick()
+  }
+
   render(){
 
     const noteUpdatedTimeStamp = this.props.currentNote.noteUpdatedAt
@@ -62,10 +78,18 @@ class Note extends React.Component {
 
             </textarea>
 
-          <button type="submit">Save</button><p>Last updated {timeDifferenceInHours}h ago</p>
+          {/* <button type="submit">Save</button> */}
+          {/* <p>Last updated {timeDifferenceInHours}h ago</p> */}
         </form>
-        <button type="click" onClick={this.handleDeleteClick}>Delete</button>
-        <button type="click" >Display time series</button>
+        <div className="note__buttons">
+          <button type="click" onClick={this.handleDeleteClick}>Delete</button>
+          <br />
+
+          <button type="click" onClick={this.handleMenuClick}>menu view</button>
+          <button type="click" onClick={this.handleNotebookClick}>notebook view</button>
+          <button type="click" onClick={this.handleNoteClick}>note view</button>
+        </div>
+
       </div>
     )
   }
