@@ -58,6 +58,12 @@ class App extends React.Component {
         cumulativeNoteID: updatedCumulativeNoteID
       });
 
+      const displayState = window.localStorage.getItem('displayState');
+      const updatedDisplayState = displayState ? JSON.parse(displayState) : 0;
+      this.setState({
+        displayType: updatedDisplayState
+      });
+
       console.log('notesArr on page load', this.state.notes)
     }
 
@@ -223,22 +229,30 @@ class App extends React.Component {
       }
     }
 
+    /////sort notes by updated at
+
+    
+
+
     //hande clicks and display divs if available
 
     receiveHandleNoteClick(){
       this.setState({
         displayType: "noteView"
-      })
+      },
+    () => window.localStorage.setItem('displayState', JSON.stringify(this.state.displayType)))
     }
     receiveHandleNotebookClick(){
       this.setState({
         displayType: "noteBookView"
-      })
+      },
+    () => window.localStorage.setItem('displayState', JSON.stringify(this.state.displayType)))
     }
     receiveHandleMenuClick(){
       this.setState({
         displayType: "menuView"
-      })
+      },
+    () => window.localStorage.setItem('displayState', JSON.stringify(this.state.displayType)))
     }
 
   render() {
